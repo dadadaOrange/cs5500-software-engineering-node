@@ -1,5 +1,5 @@
 import { Request, Response, Express } from "express";
-import TuitDao from "../daos/TuitDao";
+import TuitDao from "../dao/TuitDao";
 import TuitControllerI from "../interfaces/TuitController";
 
 export default class TuitController implements TuitControllerI {
@@ -15,7 +15,6 @@ export default class TuitController implements TuitControllerI {
         this.app.get('/users/:uid/tuits', this.findTuitsByUser);
         this.app.post('/tuits', this.createTuit);
         this.app.delete('/tuits/:tid', this.deleteTuit);
-        this.app.put('/tuits/:tid', this.updateTuit);
     }
     findAllTuits = (req: Request, res: Response) =>
         this.tuitDao.findAllTuits()
@@ -29,16 +28,5 @@ export default class TuitController implements TuitControllerI {
         this.tuitDao.findTuitsByUser(req.params.uid)
             .then((tuits: any) => res.json(tuits));
 
-    createTuit = (req: Request, res: Response) =>
-        this.tuitDao.createTuit(req.body)
-            .then((tuit: any) => res.json(tuit));
-    
-    deleteTuit = (req: Request, res: Response) =>
-        this.tuitDao.deleteTuit(req.params.tid)
-            .then((status: any) => res.json(status));
-    
-    updateTuit = (req: Request, res: Response) =>
-        this.tuitDao.updateTuit(req.params.tid, req.body)
-            .then((status: any) => res.json(status));
-    
+    createTuit 
 }

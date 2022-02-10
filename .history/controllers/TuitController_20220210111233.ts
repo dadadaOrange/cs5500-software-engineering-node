@@ -1,5 +1,5 @@
 import { Request, Response, Express } from "express";
-import TuitDao from "../daos/TuitDao";
+import TuitDao from "../dao/TuitDao";
 import TuitControllerI from "../interfaces/TuitController";
 
 export default class TuitController implements TuitControllerI {
@@ -39,6 +39,5 @@ export default class TuitController implements TuitControllerI {
     
     updateTuit = (req: Request, res: Response) =>
         this.tuitDao.updateTuit(req.params.tid, req.body)
-            .then((status: any) => res.json(status));
     
 }
