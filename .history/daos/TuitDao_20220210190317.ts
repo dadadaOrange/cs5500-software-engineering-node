@@ -10,7 +10,7 @@ export default class TuitDao implements TuitDaoI {
         }
         return TuitDao.tuitDao;
     }
-    private constructor() { }
+    
 
     async findAllTuits(): Promise<Tuit[]> {
         return await TuitModel.find();

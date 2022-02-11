@@ -8,9 +8,9 @@ export default class TuitDao implements TuitDaoI {
         if (TuitDao.tuitDao == null) {
             TuitDao.tuitDao = new TuitDao();
         }
-        return TuitDao.tuitDao;
+        return 
     }
-    private constructor() { }
+
 
     async findAllTuits(): Promise<Tuit[]> {
         return await TuitModel.find();

@@ -4,13 +4,8 @@ import TuitDaoI from "../interfaces/TuitDao";
 
 export default class TuitDao implements TuitDaoI {
     private static tuitDao: TuitDao | null = null;
-    public static getInstance = (): TuitDao => {
-        if (TuitDao.tuitDao == null) {
-            TuitDao.tuitDao = new TuitDao();
-        }
-        return TuitDao.tuitDao;
-    }
-    private constructor() { }
+    public static getInstance = ()
+
 
     async findAllTuits(): Promise<Tuit[]> {
         return await TuitModel.find();
