@@ -3,11 +3,12 @@ import express, {Request, Response} from 'express';
 //import controller
 import UserController from "./controllers/UserController"
 import TuitController from "./controllers/TuitController";
+import LikeController from "./controllers/LikeController";
 
 //connect mongoose
 import mongoose from "mongoose";
-// const connectionString = 'mongodb://localhost:27017/tuiter';
-const connectionString = 'mongodb+srv://chengchengLiu:cs5500@cluster0.ubyhk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+const connectionString = 'mongodb://localhost:27017/tuiter';
+// const connectionString = 'mongodb+srv://chengchengLiu:cs5500@cluster0.ubyhk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 mongoose.connect(connectionString);
 
 //App Control
@@ -23,6 +24,7 @@ app.get('/add/:a/:b', (req: Request, res: Response) =>
 //controller instance 
 const userController = UserController.getInstance(app);
 const tuitController = TuitController.getInstance(app);
+const likeController = LikeController.getInstance(app);
 
 
 const PORT = 4000;

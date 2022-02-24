@@ -1,33 +1,36 @@
-import Tuit from "../models/Tuit";
-import TuitModel from "../mongoose/TuitModel";
-import TuitDaoI from "../interfaces/TuitDao";
+import Tuit from "../models/tuits/Tuit";
+import TuitModel from "../mongoose/tuits/TuitModel";
+import TuitDaoI from "../interfaces/tuits/TuitDaoI";
+import tuitModel from "../mongoose/tuits/TuitModel";
 
 export default class TuitDao implements TuitDaoI {
     private static tuitDao: TuitDao | null = null;
     public static getInstance = (): TuitDao => {
-        if (TuitDao.tuitDao == null) {
+        if(TuitDao.tuitDao === null) {
             TuitDao.tuitDao = new TuitDao();
         }
         return TuitDao.tuitDao;
     }
-    private constructor() { }
+    private constructor() {}
 
-    async findAllTuits(): Promise<Tuit[]> {
-        return await TuitModel.find();
-    }
-    async findTuitsByUser(uid: string): Promise<Tuit[] | null> {
-        return await TuitModel.findOne({postedBy:uid});
-    }
-    async findTuitById(tid: string): Promise<Tuit | null> {
-        return await TuitModel.findById(tid);
-    }
-    async createTuit(tuit: Tuit): Promise<Tuit> {
-        return await TuitModel.create(tuit);
-    }
-    async updateTuit(tid: string, tuit: Tuit): Promise<any> {
-        return await TuitModel.updateOne({_id: tid}, {$set: tuit})
-    }
-    async deleteTuit(tid: string): Promise<any> {
-        return await TuitModel.deleteOne({_id: tid});
-    }
+    findAllTuits = async (): Promise<Tuit[]> =>
+        TuitModel.find();
+
+    findAllTuitsByUser = async (uid: string): Promise<Tuit[]> =>
+        tuitModel.find({postedBy:uid});
+
+    findTuitById = async (uid: string): Promise<any> =>
+        TuitModel.findById(uid)
+            .populate("postedBy")
+            .exec();
+
+    createTuitByUser = async (uid: string, tuit: Tuit): Promise<Tuit> =>
+        TuitModel.create({...tuit, postedBy: uid});
+
+    updateTuit = async (tid: string, tuit: Tuit): Promise<any> =>
+        TuitModel.updateOne(
+            {_id: tid},
+            {$set: tuit});
+    deleteTuit = async (tid: string): Promise<any> =>
+        TuitModel.deleteOne({_id: tid});
 }

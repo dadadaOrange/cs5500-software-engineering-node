@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
-const TuitSchema = new mongoose.Schema({
+import mongoose, {Schema} from "mongoose";
+import Tuit from "../../models/tuits/Tuit";
+const TuitSchema = new mongoose.Schema<Tuit>({
     tuit: {type: String, required: true},
-    postedOn: {type: Date, default: Date.now},
-    postedBy: {type: String, default: null}
-},{collection: 'tuits'}); // collection name in mongoDB
-
+    postedBy: {type: Schema.Types.ObjectId, ref: "UserModel"},
+    postedOn: {type: Date, default: Date.now}
+}, {collection: "tuits"});
 export default TuitSchema;

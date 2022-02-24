@@ -1,6 +1,7 @@
-import User from "./users/User";
-export default class Tuit {
-private tuit: string = '';
-private postedOn: Date = new Date(); 
-private postedBy: string | null = null;
-}
+import User from "../users/User";
+
+export default interface Tuit {
+    tuit: string,
+    postedBy: User,
+    postedOn?: Date,
+};
