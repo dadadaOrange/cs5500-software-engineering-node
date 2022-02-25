@@ -1,2 +1,4 @@
 build/
 .history/
+out/
+node_modules/
