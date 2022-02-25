@@ -51,7 +51,7 @@ export default class LikeDao implements LikeDaoI {
     /**
      * Inserts likes instance into the database by user
      * @param {string} uid User's primary key
-     * @param {string} tuid Tuit's primary key
+     * @param {string} tid Tuit's primary key
      * @returns Promise To be notified when likes is inserted into the database
      */
     userLikesTuit = async (uid: string, tid: string): Promise<Like> =>
@@ -63,6 +63,6 @@ export default class LikeDao implements LikeDaoI {
      * @param {string} uid Primary key of user to be removed
      * @returns Promise To be notified when like is removed from the database
      */
-    userUnlikesTuit = async (tid: string, uid: string): Promise<any> =>
+    userUnlikesTuit = async (uid: string, tid: string): Promise<any> =>
         LikeModel.deleteOne({tuit: tid, likedBy: uid});
 }

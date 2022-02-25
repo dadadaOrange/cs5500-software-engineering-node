@@ -17,6 +17,7 @@ import TuitControllerI from "../interfaces/tuits/TuitControllerI";
  *     <li>GET /api/users/:uid/tuits to retrieve tuits for a given user </li>
  *     <li>PUT /api/tuits/:tid to modify an individual tuit instance </li>
  *     <li>DELETE /api/tuits/:tid to remove a particular tuit instance</li>
+ *     <li>DELETE /api/tuits to remove all tuits instance</li>
  * </ul>
  * @property {TuitDao} tuitDao Singleton DAO implementing tuit CRUD operations
  * @property {TuitController} tuitController Singleton controller implementing
@@ -41,6 +42,7 @@ export default class TuitController implements TuitControllerI {
             app.post("/api/users/:uid/tuits", TuitController.tuitController.createTuitByUser);
             app.put("/api/tuits/:tid", TuitController.tuitController.updateTuit);
             app.delete("/api/tuits/:tid", TuitController.tuitController.deleteTuit);
+            app.delete("/api/tuits", TuitController.tuitController.deleteAllTuits);
         }
         return TuitController.tuitController;
     }
@@ -109,5 +111,16 @@ export default class TuitController implements TuitControllerI {
     deleteTuit = (req: Request, res: Response) =>
         TuitController.tuitDao.deleteTuit(req.params.tid)
             .then((status) => res.send(status));
+
+    /**
+     * Removes all user instances from the database. Useful for testing
+     * @param {Request} req Represents request from client
+     * @param {Response} res Represents response to client, including status
+     * on whether deleting all tuits was successful or not
+     */
+    deleteAllTuits = (req: Request, res: Response) =>
+        TuitController.tuitDao.deleteAllTuits()
+            .then((status) => res.send(status));
+
 };
 
