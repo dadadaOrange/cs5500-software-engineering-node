@@ -1,4 +1,7 @@
-build/
-.history/
-out/
-node_modules/
+.idea
+node_modules
+build
+data
+out
+coverage
+.history

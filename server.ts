@@ -19,6 +19,7 @@ import LikeController from "./controllers/LikeController";
 import FollowController from "./controllers/FollowController";
 import BookmarkController from "./controllers/BookmarkController";
 import MessageController from "./controllers/MessageController";
+var cors = require('cors')
 
 //connect mongoose
 import mongoose from "mongoose";
@@ -29,6 +30,7 @@ mongoose.connect(connectionString);
 //App Control
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.get('/hello', (req: Request, res: Response) =>
     res.send('Hello World! Chengcheng!'));
