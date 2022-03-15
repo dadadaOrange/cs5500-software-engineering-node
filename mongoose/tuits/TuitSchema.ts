@@ -11,7 +11,7 @@ import Tuit from "../../models/tuits/Tuit";
  * @property {Date} postedOn date the tuit is posted
  */
 const TuitSchema = new mongoose.Schema<Tuit>({
-    id:{type:String, required: true},
+    id:{type:String, required: false},
     tuit: {type: String, required: true},
     postedBy: {type: Schema.Types.ObjectId, ref: "UserModel"},
     postedOn: {type: Date, default: Date.now}
