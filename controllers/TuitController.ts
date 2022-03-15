@@ -39,10 +39,14 @@ export default class TuitController implements TuitControllerI {
             app.get("/api/tuits", TuitController.tuitController.findAllTuits);
             app.get("/api/users/:uid/tuits", TuitController.tuitController.findAllTuitsByUser);
             app.get("/api/tuits/:uid", TuitController.tuitController.findTuitById);
-            app.post("/api/users/:uid/tuits", TuitController.tuitController.createTuitByUser);
+            // app.post("/api/users/:uid/tuits", TuitController.tuitController.createTuitByUser);
             app.put("/api/tuits/:tid", TuitController.tuitController.updateTuit);
             app.delete("/api/tuits/:tid", TuitController.tuitController.deleteTuit);
             app.delete("/api/tuits", TuitController.tuitController.deleteAllTuits);
+
+            //test
+            app.post("/api/users/:uid/tuits", TuitController.tuitController.createTuit);
+            app.delete("/api/tuits/:id/delete", TuitController.tuitController.deleteTuitById);
         }
         return TuitController.tuitController;
     }
@@ -92,6 +96,11 @@ export default class TuitController implements TuitControllerI {
         TuitController.tuitDao.createTuitByUser(req.params.uid, req.body)
             .then((tuit: Tuit) => res.json(tuit));
 
+    //Test
+    createTuit = (req: Request, res: Response) =>
+        TuitController.tuitDao.createTuitByUser(req.params.uid, req.body)
+            .then((tuit: Tuit) => res.json(tuit));
+
     /**
      * @param {Request} req Represents request from client, including path
      * parameter tid identifying the primary key of the tuit to be modified
@@ -122,5 +131,9 @@ export default class TuitController implements TuitControllerI {
         TuitController.tuitDao.deleteAllTuits()
             .then((status) => res.send(status));
 
+    //Test
+    deleteTuitById= (req: Request, res: Response) =>
+        TuitController.tuitDao.deleteTuitById(req.params.id)
+            .then((status) => res.send(status));
 };
 
