@@ -20,6 +20,7 @@ import FollowController from "./controllers/FollowController";
 import BookmarkController from "./controllers/BookmarkController";
 import MessageController from "./controllers/MessageController";
 var cors = require('cors')
+const session = require("express-session");
 
 //connect mongoose
 import mongoose from "mongoose";
@@ -30,7 +31,27 @@ mongoose.connect(connectionString);
 //App Control
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    credentials: true,
+    origin: process.env.CORS_ORIGIN
+}));
+
+// secure
+let sess = {
+    secret: process.env.EXPRESS_SESSION_SECRET,
+    saveUninitialized: true,
+    resave: true,
+    cookie: {
+        sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === "production",
+    }
+}
+
+if (process.env.NODE_ENV === 'production') {
+    app.set('trust proxy', 1) // trust first proxy
+}
+
+app.use(session(sess))
 
 app.get('/hello', (req: Request, res: Response) =>
     res.send('Hello World! Chengcheng!'));
