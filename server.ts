@@ -10,6 +10,7 @@
  * Connects to a remote MongoDB instance hosted on the Atlas cloud database
  * service
  */
+import 'dotenv/config'
 import express, {Request, Response} from 'express';
 
 //import controller
@@ -19,6 +20,8 @@ import LikeController from "./controllers/LikeController";
 import FollowController from "./controllers/FollowController";
 import BookmarkController from "./controllers/BookmarkController";
 import MessageController from "./controllers/MessageController";
+import AuthenticationController from "./controllers/AuthenticationController";
+import SessionController from "./controllers/SessionController";
 var cors = require('cors')
 const session = require("express-session");
 
@@ -66,6 +69,8 @@ const likeController = LikeController.getInstance(app);
 const followController = FollowController.getInstance(app);
 const bookmarkController = BookmarkController.getInstance(app);
 const messageController = MessageController.getInstance(app);
+SessionController(app);
+AuthenticationController(app);
 
 /**
  * Start a server listening at port 4000 locally

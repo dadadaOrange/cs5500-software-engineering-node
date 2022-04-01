@@ -48,20 +48,15 @@ export default class UserController implements UserControllerI {
             app.delete("/api/users",
                 UserController.userController.deleteAllUsers);
 
-            app.post("/api/login",
-                UserController.userController.login);
-
-            app.post("/api/register", UserController.userController.register)
-
             // for testing. Not RESTful
             app.get("/api/users/create",
-                UserController.userController.createUser);
+              UserController.userController.createUser);
             app.get("/api/users/id/:uid/delete",
-                UserController.userController.deleteUser);
+              UserController.userController.deleteUser);
             app.get("/api/users/username/:username/delete",
-                UserController.userController.deleteUsersByUsername);
+              UserController.userController.deleteUsersByUsername);
             app.get("/api/users/delete",
-                UserController.userController.deleteAllUsers);
+              UserController.userController.deleteAllUsers);
         }
         return UserController.userController;
     }
@@ -88,7 +83,7 @@ export default class UserController implements UserControllerI {
     findUserById = (req: Request, res: Response) =>
         UserController.userDao.findUserById(req.params.uid)
             .then((user: User) => res.json(user));
-
+    
     /**
      * Creates a new user instance
      * @param {Request} req Represents request from client, including body
@@ -101,7 +96,7 @@ export default class UserController implements UserControllerI {
     createUser = (req: Request, res: Response) =>
         UserController.userDao.createUser(req.body)
             .then((user: User) => res.json(user));
-
+    
     /**
      * Modifies an existing user instance
      * @param {Request} req Represents request from client, including path
@@ -112,7 +107,7 @@ export default class UserController implements UserControllerI {
     updateUser = (req: Request, res: Response) =>
         UserController.userDao.updateUser(req.params.uid, req.body)
             .then((status) => res.send(status));
-
+    
     /**
      * Removes a user instance from the database
      * @param {Request} req Represents request from client, including path
@@ -123,10 +118,10 @@ export default class UserController implements UserControllerI {
     deleteUser = (req: Request, res: Response) =>
         UserController.userDao.deleteUser(req.params.uid)
             .then((status) => res.send(status));
-
+    
     /**
      * Removes all user instances from the database. Useful for testing
-     * @param {Request} req Represents request from client
+     * @param {Request} req Represents request from client 
      * @param {Response} res Represents response to client, including status
      * on whether deleting all users was successful or not
      */
@@ -135,19 +130,6 @@ export default class UserController implements UserControllerI {
             .then((status) => res.send(status));
 
     deleteUsersByUsername = (req: Request, res: Response) =>
-        UserController.userDao.deleteUsersByUsername(req.params.username)
-            .then(status => res.send(status));
-
-    login = (req: Request, res: Response) =>
-        UserController.userDao
-            .findUserByCredentials(req.body.username, req.body.password)
-            .then(user => {
-                res.json(user)
-            });
-
-    register = (req: Request, res: Response) =>
-        UserController.userDao.findUserByUsername(req.body.username)
-            .then(user => {
-                res.json(user)
-            })
+      UserController.userDao.deleteUsersByUsername(req.params.username)
+        .then(status => res.send(status));
 };
