@@ -2,6 +2,8 @@
  * @file Controller RESTful Web service API for tuits resource
  */
 import TuitDao from "../daos/TuitDao";
+import DislikeDao from "../daos/DislikeDao";
+import LikeDao from "../daos/LikeDao";
 import Tuit from "../models/tuits/Tuit";
 import {Express, Request, Response} from "express";
 import TuitControllerI from "../interfaces/tuits/TuitControllerI";
@@ -23,6 +25,8 @@ import TuitControllerI from "../interfaces/tuits/TuitControllerI";
  * RESTful Web service API
  */
 export default class TuitController implements TuitControllerI {
+    private static dislikeDao: DislikeDao = DislikeDao.getInstance();
+    private static likeDao: LikeDao = LikeDao.getInstance();
     private static tuitDao: TuitDao = TuitDao.getInstance();
     private static tuitController: TuitController | null = null;
 
@@ -54,8 +58,26 @@ export default class TuitController implements TuitControllerI {
      * body formatted as JSON arrays containing the tuit objects
      */
     findAllTuits = (req: Request, res: Response) =>
+    {
+        // @ts-ignore
+        const userId = req.session['profile']?._id;
         TuitController.tuitDao.findAllTuits()
-            .then((tuits: Tuit[]) => res.json(tuits));
+        .then((tuits: Tuit[]) => {
+            // @ts-ignore
+            Promise.all(tuits.map(async tuit => {
+                const dislikeStatus = userId === undefined ? null : await TuitController.dislikeDao
+                    .findUserDislikesTuit(userId, tuit._id);
+                const likeStatus = userId === undefined ? null : await TuitController.likeDao
+                    .findUserLikesTuit(userId, tuit._id);
+                tuit.stats.likeStatus = likeStatus !== null;
+                tuit.stats.dislikeStatus = dislikeStatus !== null;
+                return tuit;
+            })).then(tuits =>{
+                res.json(tuits)
+            })
+        });
+    }
+
     
     /**
      * @param {Request} req Represents request from client, including path
