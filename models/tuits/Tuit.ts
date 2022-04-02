@@ -2,6 +2,7 @@ import User from "../users/User";
 import Stats from "./Stats";
 
 export default interface Tuit {
+    _id: string,
     tuit: string,
     postedBy: User,
     postedOn?: Date,
