@@ -1,12 +1,24 @@
+/**
+ * @file Controller RESTful Web service API for authentication resource
+ */
 import {Request, Response, Express} from "express";
 import UserDao from "../daos/UserDao";
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+/**
+ * @param app Express instance to declare the RESTful Web service
+ * @constructor Creates singleton controller instance
+ */
 const AuthenticationController = (app: Express) => {
     
     const userDao: UserDao = UserDao.getInstance();
 
+    /**
+     * User login to the account with session
+     * @param req Represents request from client
+     * @param res Represents response to client
+     */
     const login = async (req: Request, res: Response) => {
 
         console.log("==> login")
@@ -31,6 +43,11 @@ const AuthenticationController = (app: Express) => {
         }
     }
 
+    /**
+     * User register to the account with session
+     * @param req Represents request from client
+     * @param res Represents response to client
+     */
     const register = async (req: Request, res: Response) => {
         console.log("==> register")
         console.log("==> req.session")
@@ -56,6 +73,11 @@ const AuthenticationController = (app: Express) => {
         }
     }
 
+    /**
+     * User get profile property
+     * @param req Represents request from client
+     * @param res Represents response to client
+     */
     const profile = (req: Request, res: Response) => {
         // @ts-ignore
         const profile = req.session['profile'];
@@ -66,6 +88,11 @@ const AuthenticationController = (app: Express) => {
         }
     }
 
+    /**
+     * User logout to the account and destroy session
+     * @param req Represents request from client
+     * @param res Represents response to client
+     */
     const logout = (req: Request, res: Response) => {
         // @ts-ignore
         req.session.destroy();
