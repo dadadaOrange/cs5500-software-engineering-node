@@ -8,7 +8,7 @@ import TuitDao from "../daos/TuitDao";
 import LikeDao from "../daos/LikeDao";
 
 export default class DislikeController implements DislikeControllerI {
-    private static likeDao: LikeDao = LikeDao.getInstance();
+    // private static likeDao: LikeDao = LikeDao.getInstance();
     private static dislikeDao: DislikeDao = DislikeDao.getInstance();
     private static tuitDao: TuitDao = TuitDao.getInstance();
     private static dislikeController: DislikeController | null = null;
@@ -52,7 +52,7 @@ export default class DislikeController implements DislikeControllerI {
     userTogglesTuitDislikes = async (req: Request, res: Response) => {
         const dislikeDao = DislikeController.dislikeDao;
         const tuitDao = DislikeController.tuitDao;
-        const likeDao = DislikeController.likeDao;
+        // const likeDao = DislikeController.likeDao;
 
         const uid = req.params.uid;
         const tid = req.params.tid;
@@ -64,16 +64,16 @@ export default class DislikeController implements DislikeControllerI {
             // check if user already has disliked tuit
             const userAlreadyDislikedTuit = await dislikeDao
                     .findUserDislikesTuit(userId, tid);
-            const howManyLikedTuit = await likeDao.countHowManyLikedTuit(tid);
+            const howManyDisikedTuit = await dislikeDao.countHowManyDislikedTuit(tid);
             let tuit = await tuitDao.findTuitById(tid);
             if (userAlreadyDislikedTuit) {
                 await dislikeDao.userUndislikedTuit(userId, tid);
-                tuit.stats.likes = howManyLikedTuit + 1;
+                tuit.stats.dislikes = howManyDisikedTuit - 1;
             } else {
                 await dislikeDao.userDislikesTuit(userId, tid);
-                tuit.stats.likes = howManyLikedTuit - 1;
+                tuit.stats.dislikes = howManyDisikedTuit + 1;
             };
-            await tuitDao.updateLikes(tid, tuit.stats);
+            await tuitDao.updateDisLikes(tid, tuit.stats);
             res.sendStatus(200);
         } catch (e) {
             res.sendStatus(404);
