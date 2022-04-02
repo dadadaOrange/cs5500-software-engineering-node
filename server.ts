@@ -22,6 +22,7 @@ import BookmarkController from "./controllers/BookmarkController";
 import MessageController from "./controllers/MessageController";
 import AuthenticationController from "./controllers/AuthenticationController";
 import SessionController from "./controllers/SessionController";
+// @ts-ignore
 import DislikeController from "./controllers/DislikeController";
 
 var cors = require('cors')
