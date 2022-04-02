@@ -18,8 +18,10 @@ export default class DislikeDao implements DislikeDaoI {
         DislikeModel
             .find({dislikedBy: uid})
             .populate({
+                // replace tuit reference with actual tuit document
                 path: "tuit",
                 populate: {
+                    // replace tuit's postedBy reference with actual user document
                     path: "postedBy"
                 }
             })
@@ -31,13 +33,15 @@ export default class DislikeDao implements DislikeDaoI {
             .populate("dislikedBy")
             .exec()
 
-    userDislikesTuit = async (tid: string, uid: string): Promise<Dislike> =>
+    userDislikesTuit = async (uid: string, tid: string): Promise<Dislike> =>
         DislikeModel.create({tuit: tid, dislikedBy: uid});
 
-    userUndislikedTuit = async (tid: string, uid: string): Promise<any> =>
+    userUndislikedTuit = async (uid: string, tid: string): Promise<any> =>
         DislikeModel.deleteOne({tuit: tid, dislikedBy: uid});
 
-    findUserDislikesTuit = async (tid: string, uid: string): Promise<any> =>
+    findUserDislikesTuit = async (uid: string, tid: string): Promise<any> =>
         DislikeModel.findOne({tuit: tid, dislikedBy: uid})
 
+    countHowManyDislikedTuit = async (tid: string) =>
+        DislikeModel.count({tuit: tid})
 }
