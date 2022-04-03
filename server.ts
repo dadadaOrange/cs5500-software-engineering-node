@@ -24,7 +24,7 @@ var cors = require('cors')
 //connect mongoose
 import mongoose from "mongoose";
 //const connectionString = 'mongodb://localhost:27017/tuiter';
-const connectionString = 'mongodb+srv://chengchengLiu:cs5500@cluster0.ubyhk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+const connectionString = 'mongodb+srv://chengchengLiu:cs5500@cluster0.ubyhk.mongodb.net/CS5500A3?retryWrites=true&w=majority'
 mongoose.connect(connectionString);
 
 //App Control
